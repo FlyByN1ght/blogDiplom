@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {UserLoginValidator.class})
 public @interface ExactValue {
-    String message() default "Must be exactly 10";
+    String message() default "Must contain exactly 10 digits";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

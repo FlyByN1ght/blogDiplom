@@ -22,10 +22,6 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Email(message = "Invalid email format")
-    @Column(name = "email", nullable = false)
-    private String email;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "faculty")
     private UserFaculty faculty;
