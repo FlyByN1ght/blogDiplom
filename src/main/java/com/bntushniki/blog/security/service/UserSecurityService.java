@@ -1,6 +1,7 @@
 package com.bntushniki.blog.security.service;
 
 import com.bntushniki.blog.model.User;
+import com.bntushniki.blog.model.UserFaculty;
 import com.bntushniki.blog.repository.UserRepository;
 import com.bntushniki.blog.security.model.UserRole;
 import com.bntushniki.blog.security.model.UserSecurity;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -36,22 +38,23 @@ public class UserSecurityService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean registerUser(RegistrationDto registrationDto) {
-        Optional<UserSecurity> security = userSecurityRepository.findByUserLogin(registrationDto.getUserLogin());
-        if (security.isPresent()) {
-            //throw new SameUserInDatabase(registrationDto.getLogin());
+    public boolean registerUser(String userLogin, String userPassword, String email, String lastName, String firstName,
+                                 UserFaculty faculty) {
+        if(userExistsByEmail(email) || userExistsByLogin(userLogin)) {
+            return false;
         }
+
         User user = new User();
-        user.setFirstName(registrationDto.getFirstName());
-        user.setLastName(registrationDto.getLastName());
-        user.setFaculty(registrationDto.getFaculty());
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setFaculty(faculty);
         User savedUser = userRepository.save(user);
 
         UserSecurity userSecurity = new UserSecurity();
-        userSecurity.setUserLogin(registrationDto.getUserLogin());
-        userSecurity.setUserPassword(passwordEncoder.encode(registrationDto.getUserPassword()));
+        userSecurity.setUserLogin(userLogin);
+        userSecurity.setUserPassword(passwordEncoder.encode(userPassword));
         userSecurity.setRole(UserRole.Student);
-        userSecurity.setEmail(registrationDto.getEmail());
+        userSecurity.setEmail(email);
         userSecurity.setUserId(savedUser.getUserId());
         userSecurity.setIsBlocked(false);
         userSecurityRepository.save(userSecurity);

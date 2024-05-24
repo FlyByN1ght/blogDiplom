@@ -5,24 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .logo {
+            margin-left: 70px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
+            <img src="https://socprofile.com/u/13576/socprofile.com_bntu_1648813505.png" alt="Logo" class="mb-3 logo">
             <div class="card">
                 <div class="card-header">
+
                     <h3 class="text-center">Login</h3>
                 </div>
                 <div class="card-body">
                     <form action="/login" method="post">
                         <div class="form-group">
                             <label for="loginInput">Login or Email:</label>
-                            <input type="text" class="form-control" id="loginInput" name="loginOrEmail">
+                            <input type="text" class="form-control" id="loginInput" name="loginOrEmail" placeholder="1234567890 or name@example.com">
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password:</label>
-                            <input type="password" class="form-control" id="passwordInput" name="password">
+                            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                     </form>

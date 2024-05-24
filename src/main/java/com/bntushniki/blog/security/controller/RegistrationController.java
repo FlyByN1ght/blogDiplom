@@ -33,30 +33,21 @@ public class RegistrationController {
                                @RequestParam("firstName") String firstName,
                                @RequestParam("faculty") UserFaculty faculty
                                ) {
-        RegistrationDto registrationDto = new RegistrationDto();
-        registrationDto.setUserLogin(userLogin);
-        registrationDto.setUserPassword(userPassword);
-        registrationDto.setEmail(email);
-        registrationDto.setLastName(lastName);
-        registrationDto.setFirstName(firstName);
-        registrationDto.setFaculty(faculty);
 
-        if(userSecurityService.userExistsByEmail(registrationDto.getEmail()) ||
-                userSecurityService.userExistsByLogin(registrationDto.getUserLogin()) ||
-                !userSecurityService.registerUser(registrationDto)) {
-            return "redirect:/errorRegistration";
-        } else {
+        if (userSecurityService.registerUser(userLogin, userPassword, email, lastName, firstName, faculty)){
             return "redirect:/registration/success";
+        } else {
+            return "redirect:/registration/error";
         }
     }
 
-    @GetMapping("/registration/success")
+    @GetMapping("/success")
     public String registrationSuccess() {
         return "successRegistration";
     }
 
-    @GetMapping("/registration/error")
+    @GetMapping("/error")
     public String registrationError() {
-        return "errorRegistration"; //
+        return "errorRegistration";
     }
 }

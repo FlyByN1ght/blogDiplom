@@ -1,5 +1,6 @@
 package com.bntushniki.blog.security;
 
+import com.bntushniki.blog.security.service.CustomUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomUserDetailService customUserDetailService) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
@@ -26,7 +27,21 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/registration/error", "GET")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/login", "GET")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/login", "POST")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/main", "GET")).hasAnyRole("Student", "Teacher", "Admin"))
+                                .requestMatchers(new AntPathRequestMatcher("/main", "GET")).hasAnyRole("Student", "Teacher", "Admin")
+                                .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("loginOrEmail")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/main", true)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"))
+                .userDetailsService(customUserDetailService)
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
