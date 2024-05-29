@@ -87,7 +87,7 @@ public class UserSecurityService {
         return false;
     }
 
-    public boolean checkRole(Long id) {
+    public boolean checkRoleTeacher(Long id) {
         UserSecurity userSecurity = userSecurityRepository.getUserSecurityById(id);
         return userSecurity != null && userSecurity.getRole() == UserRole.TEACHER;
     }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e2e8f0;
+        }
+        .message-box {
+            text-align: center;
+            padding: 30px;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+        .message-box h1 {
+            color: #28a745;
+        }
+        .message-box p {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="message-box">
+    <h1>Success!</h1>
+    <p>Your post has been successfully saved.</p>
+    <a href="/user/profile" class="btn btn-success">Back to Profile</a>
+    <a href="/post/create" class="btn btn-success">Create next post</a>
+</div>
+</body>
+</html>

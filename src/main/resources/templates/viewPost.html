@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Post</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+        @import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+
+        body {
+            padding: 20px;
+            font-family: "open sans";
+            color: #555;
+        }
+
+        .post-content {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <h3 th:text="${post.namePost}"></h3>
+        <p th:text="${post.created}"></p>
+    </div>
+    <div class="post-content" th:utext="${post.content}"></div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

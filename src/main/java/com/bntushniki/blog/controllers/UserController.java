@@ -67,7 +67,7 @@ public class UserController {
         model.addAttribute("isFollow", followerService.isFollow(currentUsers.getUserId(), users.getUserId()));
         model.addAttribute("currentUser", currentUsers);
         model.addAttribute("isCurrentUser", currentUser.getUsername().equals(userLogin));
-        if (userSecurityService.checkRole(userSecurity.getId())) {
+        if (userSecurityService.checkRoleTeacher(userSecurity.getId())) {
             model.addAttribute("teacher", userSecurity.getRole());
         }
         return "profile";

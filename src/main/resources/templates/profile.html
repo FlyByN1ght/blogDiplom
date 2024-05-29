@@ -118,7 +118,7 @@
                                 </form>
                             </span>
                             <span th:if="${isCurrentUser}">
-                                <button class="btn btn-info" th:if="${teacher}" th:text="'Create post'"></button>
+                                <a class="btn btn-info" th:if="${teacher}" th:text="'Create post'" th:href="@{/post/create}"></a>
                            </span>
                         </div>
                     </div>
@@ -202,6 +202,9 @@
                     </div>
                 </div>
             </div>
+            <span th:if="${teacher}">
+                <a class="btn btn-info" th:text="'View Posts'" th:href="@{/post/{userLogin}(userLogin=${userLogin})}"></a>
+            </span>
         </div>
     </div>
 </div>

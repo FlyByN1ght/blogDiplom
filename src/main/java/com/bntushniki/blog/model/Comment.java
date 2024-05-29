@@ -17,13 +17,11 @@ public class Comment {
     @GeneratedValue(generator = "commentSeqGen")
     private Long commentId;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private Long userId;
 
-    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    private Long postId;
 
     @Column(name = "content", nullable = false)
     private String content;

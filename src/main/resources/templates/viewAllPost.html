@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>All Posts by <span th:text="${users.firstName} + ' ' + ${users.lastName}"></span></h2>
+    <hr>
+    <div th:if="${#lists.isEmpty(posts)}">
+        <p>No posts found.</p>
+    </div>
+    <div th:each="post : ${posts}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a th:href="@{'/post/view/' + ${post.getPostId()}}" th:text="${post.getNamePost()}"></a>
+                </h5>
+                <p class="card-text" th:text="${post.getCreated()}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

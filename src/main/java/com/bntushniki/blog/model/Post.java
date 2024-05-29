@@ -1,6 +1,14 @@
 package com.bntushniki.blog.model;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,13 +25,16 @@ public class Post {
     @GeneratedValue(generator = "postSeqGen")
     private Long postId;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private Long userId;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "post_name", nullable = false)
+    private String namePost;
+
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(name = "created_post", nullable = false)
-    private Timestamp timestamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp created;
 }
