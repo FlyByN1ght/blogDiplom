@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .menu-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .menu-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-container ul li {
+            margin-bottom: 10px;
+        }
+
+        .menu-container ul li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .menu-container ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container menu-container">
+    <h2 class="text-center mb-4">Edit Profile</h2>
+    <ul>
+        <li><a href="/user/edit/name">Change First Name and Last Name</a></li>
+        <li><a href="/user/edit/email">Change Email</a></li>
+        <li><a href="/user/edit/resources">Change Resources (Website and GitHub)</a></li>
+        <li><a href="/user/edit/phone">Change Phone</a></li>
+        <li><a href="/user/edit/password">Change Password</a></li>
+        <li><a href="/user/profile">Back</a></li>
+    </ul>
+</div>
+</body>
+</html>

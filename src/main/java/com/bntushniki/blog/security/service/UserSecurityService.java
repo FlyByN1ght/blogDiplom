@@ -1,17 +1,15 @@
 package com.bntushniki.blog.security.service;
 
-import com.bntushniki.blog.model.User;
+import com.bntushniki.blog.model.Users;
 import com.bntushniki.blog.model.UserFaculty;
 import com.bntushniki.blog.repository.UserRepository;
 import com.bntushniki.blog.security.model.UserRole;
 import com.bntushniki.blog.security.model.UserSecurity;
-import com.bntushniki.blog.security.model.dto.RegistrationDto;
 import com.bntushniki.blog.security.repository.UserSecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -37,6 +35,14 @@ public class UserSecurityService {
         return userSecurityRepository.existsByUserLogin(userLogin);
     }
 
+    public Optional<UserSecurity> findByUserLogin(String userLogin) {
+        return userSecurityRepository.findByUserLogin(userLogin);
+    }
+
+    public Optional<UserSecurity> findByUserId(Long userId) {
+        return userSecurityRepository.getUserSecurityByUserId(userId);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean registerUser(String userLogin, String userPassword, String email, String lastName, String firstName,
                                  UserFaculty faculty) {
@@ -44,16 +50,21 @@ public class UserSecurityService {
             return false;
         }
 
-        User user = new User();
+        Users user = new Users();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setFaculty(faculty);
-        User savedUser = userRepository.save(user);
+        user.setGithub("unspecified");
+        user.setWebsite("unspecified");
+        user.setPhone("unspecified");
+        user.setAvatarUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5" +
+                "/Windows_10_Default_Profile_Picture.svg/1024px-Windows_10_Default_Profile_Picture.svg.png?20221210150350");
+        Users savedUser = userRepository.save(user);
 
         UserSecurity userSecurity = new UserSecurity();
         userSecurity.setUserLogin(userLogin);
         userSecurity.setUserPassword(passwordEncoder.encode(userPassword));
-        userSecurity.setRole(UserRole.Student);
+        userSecurity.setRole(UserRole.STUDENT);
         userSecurity.setEmail(email);
         userSecurity.setUserId(savedUser.getUserId());
         userSecurity.setIsBlocked(false);
@@ -61,7 +72,7 @@ public class UserSecurityService {
         return true;
     }
 
-    public boolean login(String loginOrEmail, String password) {
+    public boolean loginAndPassword(String loginOrEmail, String password) {
         if (loginOrEmail.contains("@")) {
             Optional<UserSecurity> userOptional = userSecurityRepository.findByEmail(loginOrEmail);
             if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getUserPassword())) {
@@ -74,5 +85,10 @@ public class UserSecurityService {
             }
         }
         return false;
+    }
+
+    public boolean checkRole(Long id) {
+        UserSecurity userSecurity = userSecurityRepository.getUserSecurityById(id);
+        return userSecurity != null && userSecurity.getRole() == UserRole.TEACHER;
     }
 }

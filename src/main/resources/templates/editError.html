@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e2e8f0;
+        }
+        .message-box {
+            text-align: center;
+            padding: 30px;
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+        .message-box h1 {
+            color: #dc3545;
+        }
+        .message-box p {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="message-box">
+    <h1>Error!</h1>
+    <p>There was a problem saving your changes. Please try again.</p>
+    <a href="/user/profile" class="btn btn-danger">Back to Profile</a>
+    <a href="/user/edit" class="btn btn-danger">Try again</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User List | Bootstrap 4</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="custom.css">
+    <style>
+        body {
+            font-family: 'Ropa Sans', sans-serif;
+            background: #e1e1e1;
+        }
+        .profile-box img {
+            height: 180px;
+        }
+        .profile-box button {
+            font-size: 12px;
+        }
+        .profile-box p {
+            font-size: 13px;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <div th:if="${#lists.isEmpty(followingWithLogins)}" class="col-12 text-center">
+            <p class="text-muted display-4">No followers found.</p>
+        </div>
+        <div th:each="entry : ${followingWithLogins}" class="col-md-2 col-8 offset-2 offset-md-1 profile-box border p-1 rounded text-center mr-5 mb-2 bg-light">
+            <img th:src="${entry.key.avatarUrl}" class="w-100 mb-1" alt="Profile Image">
+            <h5 class="m-0"><strong th:text="${entry.key.firstName} + ' ' + ${entry.key.lastName}"></strong></h5>
+            <p class="mb-2" th:text="${entry.key.faculty}"></p>
+            <a th:href="@{/user/profile/{userLogin}(userLogin=${entry.value})}" class="btn btn-primary btn-sm">VIEW</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

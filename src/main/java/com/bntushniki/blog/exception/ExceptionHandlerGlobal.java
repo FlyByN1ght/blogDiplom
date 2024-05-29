@@ -1,8 +1,10 @@
 package com.bntushniki.blog.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 
 @ControllerAdvice
 public class ExceptionHandlerGlobal {
@@ -12,3 +14,4 @@ public class ExceptionHandlerGlobal {
         return "redirect:/registration/error";
     }
 }
+

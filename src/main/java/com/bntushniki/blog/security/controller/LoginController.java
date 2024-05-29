@@ -27,7 +27,7 @@ public class LoginController {
     @PostMapping
     public String login(@RequestParam("loginOrEmail") String loginOrEmail,
                         @RequestParam("password") String password) {
-        if (!userSecurityService.login(loginOrEmail, password)) {
+        if (!userSecurityService.loginAndPassword(loginOrEmail, password)) {
             return "redirect:/login";
         }
         return "redirect:/main";
