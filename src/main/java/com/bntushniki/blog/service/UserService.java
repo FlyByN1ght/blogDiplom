@@ -27,10 +27,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository, PasswordEncoder passwordEncoder, UserSecurityService userSecurityService, UserSecurityRepository userSecurityRepository1, PhoneValidator phoneValidator, PasswordConstraintValidator passwordConstraintValidator, PasswordEncoder passwordEncoder1) {
+    public UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository, PasswordEncoder passwordEncoder,
+                       UserSecurityService userSecurityService, PhoneValidator phoneValidator,
+                       PasswordConstraintValidator passwordConstraintValidator) {
         this.userRepository = userRepository;
         this.userSecurityService = userSecurityService;
-        this.userSecurityRepository = userSecurityRepository1;
+        this.userSecurityRepository = userSecurityRepository;
         this.phoneValidator = phoneValidator;
         this.passwordConstraintValidator = passwordConstraintValidator;
         this.passwordEncoder = passwordEncoder;

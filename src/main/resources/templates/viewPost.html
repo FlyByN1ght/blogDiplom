@@ -1,43 +1,66 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Post</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-        @import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
-
-        body {
-            padding: 20px;
-            font-family: "open sans";
-            color: #555;
-        }
-
-        .post-content {
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        label {
-            font-weight: 600;
-        }
-    </style>
+    <title>Post Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <div>
-        <h3 th:text="${post.namePost}"></h3>
-        <p th:text="${post.created}"></p>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: green;"><h2>BNTUyshniki</h2></a>
+        <form class="d-flex me-auto" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/main">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/profile">Your profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/logout"
+                       style="color: white; background-color: red; padding: 5px; border-radius: 20px; position: absolute; top: 10px; right: 10px;">Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="post-content" th:utext="${post.content}"></div>
+</nav>
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${post.namePost}"></h5>
+            <p class="card-text" th:utext="${post.content}"></p>
+        </div>
+    </div>
+
+    <div th:each="comment, iterStat : ${comments}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <strong>
+                    <span th:text="${commentUserNames[__${iterStat.index}__]}"></span>
+                </strong>:
+                <span th:text="${comment.content}"></span>
+                <p class="text-muted"><small th:text="${#dates.format(comment.timestamp, 'dd/MM/yyyy HH:mm')}"></small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5>Add a comment</h5>
+            <form th:action="@{/post/comment/add}" method="post">
+                <input type="hidden" name="postId" th:value="${post.postId}"/>
+                <textarea class="form-control" name="content" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+        </div>
+    </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
