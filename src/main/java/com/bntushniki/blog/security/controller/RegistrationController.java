@@ -1,7 +1,6 @@
 package com.bntushniki.blog.security.controller;
 
 import com.bntushniki.blog.model.UserFaculty;
-import com.bntushniki.blog.security.model.dto.RegistrationDto;
 import com.bntushniki.blog.security.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,12 +31,12 @@ public class RegistrationController {
                                @RequestParam("lastName") String lastName,
                                @RequestParam("firstName") String firstName,
                                @RequestParam("faculty") UserFaculty faculty
-                               ) {
+    ) {
 
         if (userSecurityService.registerUser(userLogin, userPassword, email, lastName, firstName, faculty)){
-            return "redirect:/registration/success";
+            return "successRegistration";
         } else {
-            return "redirect:/registration/error";
+            return "errorRegistration";
         }
     }
 

@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/login/banned", "GET")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/main", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/user/profile", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/user/search", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/user/profile/followers/", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/user/profile/following/", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/user/edit/**", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -135,7 +136,7 @@ public class UserController {
 
     @PostMapping("/edit/email")
     public String editEmail(@AuthenticationPrincipal User user, @RequestParam String email) {
-        if(userService.updateEmail(user, email)){
+        if(userSecurityService.updateEmail(user, email)){
             return "redirect:success";
         }
         return "redirect:error";
@@ -176,9 +177,20 @@ public class UserController {
     @PostMapping("/edit/password")
     public String editPassword(@AuthenticationPrincipal User user, @RequestParam String password, @RequestParam String
                                confirmPassword) {
-        if(userService.updatePassword(user, password, confirmPassword)){
+        if(userSecurityService.updatePassword(user, password, confirmPassword)){
             return "redirect:success";
         }
         return "redirect:error";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "query", required = false) String query, Model model) {
+        List<Users> results = userService.searchUsers(query);
+        Map<Users, String> userMapWithLogins = userService.getUserMapWithLogins(results);
+
+        model.addAttribute("query", query);
+        model.addAttribute("userMapWithLogins", userMapWithLogins);
+
+        return "search_results";
     }
 }

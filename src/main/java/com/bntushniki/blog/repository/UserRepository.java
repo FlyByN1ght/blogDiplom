@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {
     @Modifying
@@ -28,4 +30,6 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     @Modifying
     @Query("UPDATE users u SET u.phone = :phone WHERE u.userId = :id")
     int updatePhoneById(@Param("id") Long id, @Param("phone") String phone);
+
+    List<Users> findByFirstNameAndLastName(String firstName, String lastName);
 }

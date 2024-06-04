@@ -1,6 +1,5 @@
 package com.bntushniki.blog.service;
 
-import com.bntushniki.blog.annotation.ValidPhone;
 import com.bntushniki.blog.annotation.valid.PhoneValidator;
 import com.bntushniki.blog.model.Users;
 import com.bntushniki.blog.repository.UserRepository;
@@ -14,6 +13,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,19 +25,18 @@ public class UserService {
     private final UserSecurityService userSecurityService;
     private final UserSecurityRepository userSecurityRepository;
     private final PhoneValidator phoneValidator;
-    private final PasswordConstraintValidator passwordConstraintValidator;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository, PasswordEncoder passwordEncoder,
-                       UserSecurityService userSecurityService, PhoneValidator phoneValidator,
-                       PasswordConstraintValidator passwordConstraintValidator) {
+    public UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository,
+                       UserSecurityService userSecurityService, PhoneValidator phoneValidator) {
         this.userRepository = userRepository;
         this.userSecurityService = userSecurityService;
         this.userSecurityRepository = userSecurityRepository;
         this.phoneValidator = phoneValidator;
-        this.passwordConstraintValidator = passwordConstraintValidator;
-        this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<Users> findAll() {
+        return userRepository.findAll();
     }
 
     private Optional<Users> getUsersByUserDetails(User user) {
@@ -73,23 +74,6 @@ public class UserService {
             userRepository.updateLastNameById(users.getUserId(), lastName);
         }
         return true;
-    }
-
-    @Transactional
-    public boolean updateEmail(User user, String email) {
-        if(email.isBlank()) {
-            return false;
-        }
-        if(userSecurityService.userExistsByEmail(email)) {
-            return false;
-        }
-        Optional<UserSecurity> userSecurityOptional = userSecurityService.findByUserLogin(user.getUsername());
-        if (userSecurityOptional.isEmpty()) {
-            return false;
-        }
-
-        UserSecurity userSecurity = userSecurityOptional.get();
-        return userSecurityRepository.updateEmailById(userSecurity.getId(), email) > 0;
     }
 
     @Transactional
@@ -132,25 +116,28 @@ public class UserService {
         return userRepository.updatePhoneById(users.getUserId(), phone) > 0;
     }
 
-    @Transactional
-    public boolean updatePassword (User user, String password, String confirmPassword) {
-        if(password.isBlank() || confirmPassword.isBlank()) {
-            return false;
-        }
-        if(!password.equals(confirmPassword)) {
-            return false;
+    public List<Users> searchUsers(String searchQuery) {
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            return List.of();
         }
 
-        if(passwordConstraintValidator.passwordValid(password)) {
-            return false;
+        String[] parts = searchQuery.trim().split("\\s+");
+        if (parts.length < 2) {
+            return List.of();
         }
 
-        Optional<UserSecurity> userSecurityOptional = userSecurityService.findByUserLogin(user.getUsername());
-        if (userSecurityOptional.isEmpty()) {
-            return false;
-        }
+        String firstName = parts[0];
+        String lastName = parts[1];
 
-        UserSecurity userSecurity = userSecurityOptional.get();
-        return userSecurityRepository.updatePasswordById(userSecurity.getId(), passwordEncoder.encode(password)) > 0;
+        return userRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    public Map<Users, String> getUserMapWithLogins(List<Users> usersList) {
+        Map<Users, String> userMapWithLogins = new HashMap<>();
+        for (Users user : usersList) {
+            Optional<UserSecurity> userSecurityOptional = userSecurityService.findByUserId(user.getUserId());
+            userSecurityOptional.ifPresent(userSecurity -> userMapWithLogins.put(user, userSecurity.getUserLogin()));
+        }
+        return userMapWithLogins;
     }
 }

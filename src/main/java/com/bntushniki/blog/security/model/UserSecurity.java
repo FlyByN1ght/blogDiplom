@@ -43,9 +43,6 @@ public class UserSecurity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "is_blocked")
-    private Boolean isBlocked;
-
     @Email(message = "Invalid email format")
     @Column(name = "email", nullable = false, unique = true)
     private String email;

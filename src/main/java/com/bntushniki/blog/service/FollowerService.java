@@ -24,16 +24,14 @@ public class FollowerService {
     private final UserRepository usersRepository;
     private final UserSecurityService userSecurityService;
     private final UserService userService;
-    private final UserSecurityRepository userSecurityRepository;
 
     @Autowired
     public FollowerService(FollowerRepository followerRepository, UserSecurityService userSecurityService,
-                           UserService userService, UserRepository usersRepository, UserSecurityRepository userSecurityRepository) {
+                           UserService userService, UserRepository usersRepository) {
         this.followerRepository = followerRepository;
         this.userSecurityService = userSecurityService;
         this.userService = userService;
         this.usersRepository = usersRepository;
-        this.userSecurityRepository = userSecurityRepository;
     }
 
     public long countFollowers(Long userId) {
@@ -69,23 +67,14 @@ public class FollowerService {
         return usersRepository.findAllById(userIds);
     }
 
-    public Map<Users, String> getUserMapWithLogins(List<Users> usersList) {
-        Map<Users, String> userMapWithLogins = new HashMap<>();
-        for (Users user : usersList) {
-            Optional<UserSecurity> userSecurityOptional = userSecurityService.findByUserId(user.getUserId());
-            userSecurityOptional.ifPresent(userSecurity -> userMapWithLogins.put(user, userSecurity.getUserLogin()));
-        }
-        return userMapWithLogins;
-    }
-
     public Map<Users, String> getFollowerMapWithLogins(String userLogin) {
         List<Users> followers = getUsersByType(userLogin, "followers");
-        return getUserMapWithLogins(followers);
+        return userService.getUserMapWithLogins(followers);
     }
 
     public Map<Users, String> getFollowingMapWithLogins(String userLogin) {
         List<Users> following = getUsersByType(userLogin, "following");
-        return getUserMapWithLogins(following);
+        return userService.getUserMapWithLogins(following);
     }
 
     @Transactional

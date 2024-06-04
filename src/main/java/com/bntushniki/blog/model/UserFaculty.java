@@ -1,5 +1,5 @@
 package com.bntushniki.blog.model;
 
 public enum UserFaculty {
-    FITR, ATF, MTF
+    FITR, ATF, MTF, MMM, KLH
 }

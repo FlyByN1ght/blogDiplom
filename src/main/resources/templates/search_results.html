@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">Search Results</h1>
+    <p class="lead">Search Results for "<span th:text="${query}"></span>":</p>
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li th:each="entry : ${userMapWithLogins.entrySet()}" class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Name: <a th:href="@{/user/profile/{login}(login=${entry.value})}" th:text="${entry.key.firstName} + ' ' + ${entry.key.lastName} + ' :' + ${entry.key.faculty}"></a></h5>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

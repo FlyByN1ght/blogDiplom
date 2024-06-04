@@ -1,5 +1,6 @@
 package com.bntushniki.blog.security.repository;
 
+import com.bntushniki.blog.security.model.UserRole;
 import com.bntushniki.blog.security.model.UserSecurity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,4 +26,8 @@ public interface UserSecurityRepository extends JpaRepository<UserSecurity, Long
     @Modifying
     @Query("UPDATE user_security  u SET u.userPassword = :password WHERE u.id = :id")
     int updatePasswordById(@Param("id") Long id, @Param("password") String password);
+
+    @Modifying
+    @Query("UPDATE user_security u SET u.role = :role WHERE u.id = :id")
+    void updateRoleById(@Param("id") Long id, @Param("role") UserRole role);
 }

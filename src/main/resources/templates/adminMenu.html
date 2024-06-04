@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Menu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Admin Menu</h1>
+    <div class="list-group">
+        <a href="/registration/teacher" class="list-group-item list-group-item-action">Create Teacher</a>
+    </div>
+    <h2 class="mt-5">Users</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${usersWithSecurityDetails}">
+            <td th:text="${entry.key.userId}"></td>
+            <td th:text="${entry.key.firstName}"></td>
+            <td th:text="${entry.key.lastName}"></td>
+            <td th:text="${entry.value.userLogin}"></td>
+            <td th:text="${entry.value.email}"></td>
+            <td th:text="${entry.value.role}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{/admin/users/posts/{id}(id=${entry.key.userId})}">Posts</a>
+                <a class="btn btn-primary" th:href="@{/admin/users/comments/{id}(id=${entry.key.userId})}">Comments</a>
+                <a class="btn btn-danger" th:href="@{/admin/users/delete/{id}(id=${entry.key.userId})}">Delete</a>
+                <form th:action="@{/admin/users/toggleRole/{id}(id=${entry.key.userId})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-secondary">Toggle Role</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
