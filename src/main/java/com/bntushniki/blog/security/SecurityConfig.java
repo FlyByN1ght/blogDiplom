@@ -41,6 +41,12 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/post/success", "GET")).hasRole("TEACHER")
                                 .requestMatchers(new AntPathRequestMatcher("/post/view/", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/post/", "GET")).hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/admin/**", "GET")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/admin/**", "POST")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/registration/teacher", "POST")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/registration/teacher", "GET")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/registration/teacher/success", "GET")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/registration/teacher/error", "GET")).hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

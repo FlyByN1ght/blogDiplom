@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class entity for followers
+ * @author Daniil
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

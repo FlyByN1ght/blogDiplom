@@ -5,6 +5,7 @@ import com.bntushniki.blog.security.model.UserSecurity;
 import com.bntushniki.blog.security.service.UserSecurityService;
 import com.bntushniki.blog.service.FollowerService;
 import com.bntushniki.blog.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -20,8 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Controller class handling user-related functionality.
+ * @author Daniil
+ */
 @Controller
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     private final UserSecurityService userSecurityService;
@@ -35,17 +41,30 @@ public class UserController {
         this.followerService = followerService;
     }
 
+    /**
+     * Redirects to the profile page of the current user.
+     * @param user The authenticated user.
+     * @return A redirect to the profile page of the current user.
+     */
     @GetMapping("/profile")
     public String getCurrentUserProfile(@AuthenticationPrincipal User user) {
         String userLogin = user.getUsername();
         return "redirect:/user/profile/" + userLogin;
     }
 
+    /**
+     * Retrieves a user by login and displays their profile.
+     * @param userLogin The login of the user whose profile is being viewed.
+     * @param model The model to add attributes for rendering.
+     * @param currentUser The authenticated user.
+     * @return The view name for the user's profile.
+     */
     @GetMapping("/profile/{userLogin}")
     public String getProfile(@PathVariable String userLogin, Model model, @AuthenticationPrincipal User currentUser) {
         Optional<UserSecurity> userSecurityOptional = userSecurityService.findByUserLogin(userLogin);
         Optional<UserSecurity> currentUserSecurityOptional = userSecurityService.findByUserLogin(currentUser.getUsername());
         if (userSecurityOptional.isEmpty()) {
+            log.error("User not found with login: {}", userLogin);
             return "userNotFound";
         }
 
@@ -55,6 +74,7 @@ public class UserController {
         Optional<Users> currentUsersOptional = userService.getUserById(currentUserSecurity.getUserId());
 
         if (usersOptional.isEmpty()) {
+            log.error("User not found with login: {}", userLogin);
             return "userNotFound";
         }
         Users users = usersOptional.get();
@@ -74,18 +94,38 @@ public class UserController {
         return "profile";
     }
 
+    /**
+     * Follows a user.
+     * @param userLogin The login of the user to follow.
+     * @param followerUserId The ID of the follower.
+     * @param followingUserId The ID of the user being followed.
+     * @return A redirect to the user's profile page.
+     */
     @PostMapping("/follow")
     public String followUser(@RequestParam String userLogin, @RequestParam Long followerUserId, @RequestParam Long followingUserId) {
         followerService.followUser(followerUserId, followingUserId);
         return "redirect:/user/profile/" + userLogin;
     }
 
+    /**
+     * Unfollows a user.
+     * @param userLogin The login of the user to unfollow.
+     * @param followerUserId The ID of the follower.
+     * @param followingUserId The ID of the user being unfollowed.
+     * @return A redirect to the user's profile page.
+     */
     @PostMapping("/unfollow")
     public String unfollowUser(@RequestParam String userLogin, @RequestParam Long followerUserId, @RequestParam Long followingUserId) {
         followerService.unfollowUser(followerUserId, followingUserId);
         return "redirect:/user/profile/" + userLogin;
     }
 
+    /**
+     * Retrieves followers of a user and displays them.
+     * @param userLogin The login of the user whose followers are being viewed.
+     * @param model The model to add attributes for rendering.
+     * @return The view name for the followers list.
+     */
     @GetMapping("/profile/followers/{userLogin}")
     public String getFollowers(@PathVariable String userLogin, Model model) {
         Map<Users, String> followersWithLogins = followerService.getFollowerMapWithLogins(userLogin);
@@ -93,6 +133,12 @@ public class UserController {
         return "followers";
     }
 
+    /**
+     * Retrieves users followed by a user and displays them.
+     * @param userLogin The login of the user whose followed users are being viewed.
+     * @param model The model to add attributes for rendering.
+     * @return The view name for the following list.
+     */
     @GetMapping("/profile/following/{userLogin}")
     public String getFollowing(@PathVariable String userLogin, Model model) {
         Map<Users, String> followingWithLogins = followerService.getFollowingMapWithLogins(userLogin);

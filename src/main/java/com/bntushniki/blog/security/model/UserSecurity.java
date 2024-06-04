@@ -16,6 +16,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * class entity for security model
+ * @author Daniil
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -15,6 +15,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+/**
+ * Class entity for post
+ * @author Daniil
+ */
 @Entity(name = "posts")
 @Data
 @NoArgsConstructor

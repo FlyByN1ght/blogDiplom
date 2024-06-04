@@ -35,7 +35,9 @@
             <td>
                 <a class="btn btn-primary" th:href="@{/admin/users/posts/{id}(id=${entry.key.userId})}">Posts</a>
                 <a class="btn btn-primary" th:href="@{/admin/users/comments/{id}(id=${entry.key.userId})}">Comments</a>
-                <a class="btn btn-danger" th:href="@{/admin/users/delete/{id}(id=${entry.key.userId})}">Delete</a>
+                <form th:action="@{/admin/users/delete/{id}(id=${entry.key.userId})}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
                 <form th:action="@{/admin/users/toggleRole/{id}(id=${entry.key.userId})}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-secondary">Toggle Role</button>
                 </form>

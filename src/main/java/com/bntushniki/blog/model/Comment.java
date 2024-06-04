@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+/**
+ * Class entity for comment
+ * @author Daniil
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

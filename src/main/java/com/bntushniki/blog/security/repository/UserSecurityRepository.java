@@ -18,6 +18,7 @@ public interface UserSecurityRepository extends JpaRepository<UserSecurity, Long
     Optional<UserSecurity> findByEmail(String loginOrEmail);
     UserSecurity getUserSecurityById(Long id);
     Optional<UserSecurity> getUserSecurityByUserId(Long userId);
+    void deleteByUserId(Long id);
 
     @Modifying
     @Query("UPDATE user_security u SET u.email = :email WHERE u.id = :id")

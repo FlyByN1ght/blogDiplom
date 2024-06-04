@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Posts</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4 mb-4">User Posts</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Post ID</th>
+            <th>User ID</th>
+            <th>Post Name</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over posts and display them -->
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.getPostId()}"></td>
+            <td th:text="${post.getUserId()}"></td>
+            <td th:text="${post.getNamePost()}"></td>
+            <td th:text="${post.getCreated()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

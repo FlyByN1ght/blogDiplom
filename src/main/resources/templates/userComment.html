@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Comments</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4 mb-4">User Comments</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Comment ID</th>
+            <th>User ID</th>
+            <th>Post ID</th>
+            <th>Content</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over comments and display them -->
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.getCommentId()}"></td>
+            <td th:text="${comment.getUserId()}"></td>
+            <td th:text="${comment.getPostId()}"></td>
+            <td th:text="${comment.getContent()}"></td>
+            <td th:text="${comment.getTimestamp()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

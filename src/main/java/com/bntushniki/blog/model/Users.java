@@ -1,7 +1,6 @@
 package com.bntushniki.blog.model;
 
 
-import com.bntushniki.blog.annotation.ValidPhone;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +12,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class entity for users
+ * @author Daniil
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,7 +45,6 @@ public class Users {
     @Column(name = "github")
     private String github;
 
-    @ValidPhone
     @Column(name = "phone")
     private String phone;
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <title>Registration</title>
+</head>
+<body>
+
+<form th:action="@{/registration/teacher}" method="post">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body bg-gray">
+                        <h1 class="text-center">Registration</h1>
+                        <form th:action="@{/registration/teacher}" method="post">
+                            <div class="mb-3">
+                                <label for="userLogin" class="form-label" >User Login:</label>
+                                <input type="text" class="form-control" id="userLogin" name="userLogin" placeholder="1234567890"/>
+                                <div id="loginHelp" class="form-text">Login must consist of 10 digits of your grade book</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userPassword" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Password" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"/>
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name:</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ivan"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name:</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ivanov"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="faculty" class="form-label">Faculty:</label>
+                                <select class="form-control" id="faculty" name="faculty">
+                                    <option th:each="faculty : ${faculties}"
+                                            th:value="${faculty}"
+                                            th:text="${faculty}">Faculty</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
